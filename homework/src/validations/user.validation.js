@@ -21,5 +21,6 @@ const getUserList = {
 };
 
 module.exports = {
-    createUser
+    createUser,
+    getUserList
 }

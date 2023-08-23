@@ -1,4 +1,4 @@
-const { User } = require("../models");
+const User= require("../models/user.model");
 
 
 /**
@@ -7,11 +7,21 @@ const { User } = require("../models");
  * @returns {Promise<User>}
  */
 const createUser = async (reqBody) => {
-    return User.create(reqBody);
+  return User.create(reqBody);
   };
 
+/**
+ * Get user list
+ * @param {object} filter
+ * @param {object} options
+ * @returns {Promise<User>}
+ */
 
+const getUserList = async (filter, options) => {
+  return User.find()
+};
 
   module.exports = {
-    createUser
+    createUser,
+    getUserList
   }
