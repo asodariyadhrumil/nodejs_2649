@@ -1,16 +1,28 @@
-const express = require("express");
-const http = require("http");
-const routes = require("./src/routes/v1");
+const express = require("express")
+const mongoose = require("mongoose")
+const app = express()
+const bodyParser = require("body-parser")
+const {
+  connectDB
+} = require("./src/db/dbConnection");
 const config = require("./src/config/config");
-const { connectDB } = require("./src/db/dbconnection");
+const routes = require("./src/routes/v1");
+const http = require("http");
 
-const app =express();
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
 
-const server = http.createServer(app);
+app.use(bodyParser.json());
+
 app.use("/v1", routes);
-connectDB();
 
+app.use((req, res, next) => {
+  next(new Error("Route not found!"));
+});
+
+connectDB()
+const server = http.createServer(app)
 server.listen(config.port, () => {
-    console.log("server listning port number 8080!",new Date);
-    console.log("server is runing ")
-  });
+  console.log("server listning port number 8080!");
+});

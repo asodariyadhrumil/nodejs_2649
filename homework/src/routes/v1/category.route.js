@@ -1,19 +1,15 @@
+const express = require("express")
+const  categoryValidation = require("../../validations/category.validation");
+const  categoryController = require("../../controllers/category.controller");
+const validate = require("../../middlewares/validate");
 
-const express = require("express");
-const { categoryValidation } = require("../../validations");
-const { categoryController } = require("../../controllers");
 const router = express.Router();
 
-
-/** create category */
-router.get(
+// create category
+router.post(
   "/create-category",
-  categoryController.createcategory
+  validate(categoryValidation.createCategory),
+  categoryController.createCategory
 );
 
-/** Get category list */
-// router.get(
-//   "/list",
-//   categoryController.getcategoryList
-// );
 module.exports = router;
