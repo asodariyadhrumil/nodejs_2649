@@ -1,0 +1,1 @@
+module.exports.mobilecontroller = require("./mobile.controller")
