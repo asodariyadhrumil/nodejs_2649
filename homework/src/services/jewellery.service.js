@@ -1,20 +1,37 @@
-const { Jewellery } = require("../models");
+const { jewellery } = require("../models");
 
 /**
- * Create hotel
  * @param {object} reqBody
- * @returns {Promise<Jewellery>}
+ *@returns {Promise<User>}
  */
-const createJewellery = async (reqBody) => {
-    return Jewellery.create(reqBody)
-  };
 
-  const listJewellery = async (reqBody) => {
-    return Jewellery.find({ $or: [ { is_active:true}]})
+ const createJewellery= async (reqBody) => {
+    return jewellery.create(reqBody);
   };
-
-  const deleteJewellery = async (id) => {
-    return Jewellery.findByIdAndDelete(id)
+  
+  const getJewelleryList = async (req,res) => {
+    // return jewellery.find();
+    return jewellery.find({$or : [{is_available:true}]});
   };
+  
+  const deleteJewellery= async (jewelleryId) => {
+    return jewellery.findByIdAndDelete(jewelleryId);
+  };
+  
+    // Get jewellery details by id
+const getJewelleryById = async (jewelleryId) => {
+  return jewellery.findById(jewelleryId);
+};
 
-   module.exports = { createJewellery,listJewellery,deleteJewellery}
+  // jewellery details update by id
+const jewelleryUpdate = async (jewelleryId, updateBody) => {
+  return jewellery.findByIdAndUpdate(jewelleryId, { $set: updateBody });
+};
+  
+  module.exports = {
+    createJewellery,
+    getJewelleryList,
+    deleteJewellery,
+    getJewelleryById,
+    jewelleryUpdate
+  };

@@ -1,6 +1,6 @@
-const { stationaryService } = require("../services");
+const { stationaryService } = require('../services');
 
-/** create stationary*/
+/* Create stationary */
 const createStationary = async (req, res) => {
     try {
         const reqBody = req.body;
@@ -12,52 +12,71 @@ const createStationary = async (req, res) => {
 
         res.status(200).json({
             success: true,
-            message: "stationary create successfully!",
-            data: { stationary },
-        });
+            message: "stationary created successfully!",
+            data:  stationary ,
+          });
     } catch (error) {
         res.status(400).json({ success: false, message: error.message });
     }
 };
 
-/** list stationary*/
-const listStationary = async (req, res) => {
+/** Get stationary list */
+const getStationaryList = async (req, res) => {
     try {
-        const reqBody = req.body;
+      const getList = await stationaryService.getStationaryList(req,res);
 
-        const stationary = await stationaryService.listStationary(reqBody);
-        if (!stationary) {
-            throw new Error("Something went wrong, please try again or later!");
-        }
-
-        res.status(200).json({
-            success: true,
-            message: "stationary list successfully!",
-            data: { stationary },
-        });
+      res.status(200).json({
+        success: true,
+        message: "Get stationary list successfully!",
+        data: getList,
+      });
     } catch (error) {
-        res.status(400).json({ success: false, message: error.message });
+      res.status(400).json({ success: false, message: error.message });
     }
-};
+  };
 
-/** deletestationary*/
+  /** Delete stationary */
 const deleteStationary = async (req, res) => {
     try {
-        const id = req.params.Id
-        const stationary = await stationaryService.listStationary();
-        if (!stationary) {
-            throw new Error("Something went wrong, please try again or later!");
-        }
-        await stationaryService.deleteStationary(id)
-
-        res.status(200).json({
-            success: true,
-            message: "stationary list successfully!",
-        });
+      const stationaryId = req.params.stationaryId;
+      if (!stationaryId) {
+        throw new Error("stationary not found!");
+      }
+  
+      await stationaryService.deleteStationary(stationaryId);
+  
+      res.status(200).json({
+        success: true,
+        message: "stationary deleted successfully!",
+      });
     } catch (error) {
-        res.status(400).json({ success: false, message: error.message });
+      res.status(400).json({ success: false, message: error.message });
     }
+  };
+
+  /** stationary details update by id */
+const stationaryUpdate = async (req, res) => {
+  try {
+    const stationaryId = req.params.stationaryId;
+    const stationaryExists = await stationaryService.getStationaryById(stationaryId);
+    if (!stationaryExists) {
+      throw new Error("stationary not found!");
+    }
+
+    await stationaryService.stationaryUpdate(stationaryId, req.body);
+
+    res.status(200).json({
+      success: true,
+      message: "stationary details update successfully!"
+    });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
 };
 
-
-module.exports = {createStationary,listStationary,deleteStationary}
+module.exports = {
+    createStationary,
+    getStationaryList,
+    deleteStationary,
+    stationaryUpdate
+}

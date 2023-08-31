@@ -1,6 +1,6 @@
-const { schoolService } = require("../services");
+const { schoolService } = require('../services');
 
-/** create school*/
+/* Create school */
 const createSchool = async (req, res) => {
     try {
         const reqBody = req.body;
@@ -12,53 +12,74 @@ const createSchool = async (req, res) => {
 
         res.status(200).json({
             success: true,
-            message: "school create successfully!",
-            data: { school },
-        });
+            message: "school created successfully!",
+            data:  school ,
+          });
     } catch (error) {
         res.status(400).json({ success: false, message: error.message });
     }
 };
 
-
-/** list school*/
-const listSchool = async (req, res) => {
+/** Get school list */
+const getSchoolList = async (req, res) => {
     try {
-        const reqBody = req.body;
 
-        const school = await schoolService.listSchool(reqBody);
-        if (!school) {
-            throw new Error("Something went wrong, please try again or later!");
-        }
+      const getList = await schoolService.getSchoolList(req,res);
 
-        res.status(200).json({
-            success: true,
-            message: "school list successfully!",
-            data: { school },
-        });
+      res.status(200).json({
+        success: true,
+        message: "Get user list successfully!",
+        data: getList,
+      });
     } catch (error) {
-        res.status(400).json({ success: false, message: error.message });
+      res.status(400).json({ success: false, message: error.message });
     }
-};
+  };
 
-
-/** delete school*/
+  /** Delete school */
 const deleteSchool = async (req, res) => {
     try {
-        const id = req.params.Id
-        const school = await schoolService.listSchool();
-        if (!school) {
-            throw new Error("Something went wrong, please try again or later!");
-        }
-        await schoolService.deleteSchool(id)
-
-        res.status(200).json({
-            success: true,
-            message: "school successfully delete!",
-        });
+      const schoolId = req.params.schoolId;
+      if (!schoolId) {
+        throw new Error("school not found!");
+      }
+  
+      await schoolService.deleteSchool(schoolId);
+  
+      res.status(200).json({
+        success: true,
+        message: "school deleted successfully!",
+      });
     } catch (error) {
-        res.status(400).json({ success: false, message: error.message });
+      res.status(400).json({ success: false, message: error.message });
     }
-};
+  };
 
-module.exports={createSchool,listSchool,deleteSchool}
+  /** school details update by id */
+  const schoolUpdate = async(req,res) =>{
+    try {
+      const schoolId = req.params.schoolId;
+      const schoolExists = await schoolService.getSchoolById(schoolId);
+      if(!schoolExists){
+        throw new Error("school not found");
+      }
+
+      await schoolService.schoolUpdate(schoolId , req.body);
+      res.status(200).json({
+        success:true,
+        message:"school detais updated successfully",
+      })
+    } catch (error) {
+      res.status(400).json({
+        success:false,
+        message:error.message
+      })
+    }
+  }
+
+module.exports = {
+    createSchool,
+    getSchoolList,
+    deleteSchool,
+    schoolUpdate
+}

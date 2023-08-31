@@ -1,20 +1,37 @@
-const { Grocery } = require("../models");
+const { grocery } = require("../models");
 
 /**
- * Create Grocery
  * @param {object} reqBody
- * @returns {Promise<Grocery>}
+ *@returns {Promise<User>}
  */
-const createGrocery = async (reqBody) => {
-  return Grocery.create(reqBody)
+
+ const createGrocery= async (reqBody) => {
+    return grocery.create(reqBody);
+  };
+  
+  const getGroceryList = async (req,res) => {
+    // return grocery.find();
+    return grocery.find({$or: [{is_open: true}]});
+  };
+  
+  const deleteGrocery= async (groceryId) => {
+    return grocery.findByIdAndDelete(groceryId);
+  };
+  
+    // Get grocery details by id
+const getGroceryById = async (groceryId) => {
+  return grocery.findById(groceryId);
 };
 
-const listGrocery = async (reqBody) => {
-  return Grocery.find({ $or: [ { is_active:true}]})
+  // grocery details update by id
+const groceryUpdate = async (groceryId, updateBody) => {
+  return grocery.findByIdAndUpdate(groceryId, { $set: updateBody });
 };
-
-const deleteGrocery = async (id) => {
-  return Grocery.findByIdAndDelete(id)
-};
-
- module.exports = { createGrocery,listGrocery,deleteGrocery}
+  
+  module.exports = {
+    createGrocery,
+    getGroceryList,
+    deleteGrocery,
+    getGroceryById,
+    groceryUpdate
+  };

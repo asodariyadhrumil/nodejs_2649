@@ -1,6 +1,6 @@
-const { pharmacyService } = require("../services");
+const { pharmacyService } = require('../services');
 
-/** create pharmacy*/
+/* Create pharmacy */
 const createPharmacy = async (req, res) => {
     try {
         const reqBody = req.body;
@@ -12,51 +12,72 @@ const createPharmacy = async (req, res) => {
 
         res.status(200).json({
             success: true,
-            message: "pharmacy create successfully!",
-            data: { pharmacy },
-        });
+            message: "pharmacy created successfully!",
+            data:  pharmacy ,
+          });
     } catch (error) {
         res.status(400).json({ success: false, message: error.message });
     }
 };
 
-/** list pharmacy*/
-const listPharmacy = async (req, res) => {
+/** Get pharmacy list */
+const getPharmacyList = async (req, res) => {
     try {
-        const reqBody = req.body;
 
-        const pharmacy = await pharmacyService.listPharmacy(reqBody);
-        if (!pharmacy) {
-            throw new Error("Something went wrong, please try again or later!");
-        }
+      const getList = await pharmacyService.getPharmacyList(req,res);
 
-        res.status(200).json({
-            success: true,
-            message: "pharmacy list successfully!",
-            data: { pharmacy },
-        });
+      res.status(200).json({
+        success: true,
+        message: "Get pharmacy list successfully!",
+        data: getList,
+      });
     } catch (error) {
-        res.status(400).json({ success: false, message: error.message });
+      res.status(400).json({ success: false, message: error.message });
     }
-};
+  };
 
-/** delete pharmacy*/
+  /** Delete pharmacy */
 const deletePharmacy = async (req, res) => {
     try {
-        const id = req.params.Id
-        const pharmacy = await pharmacyService.listPharmacy();
-        if (!pharmacy) {
-            throw new Error("Something went wrong, please try again or later!");
-        }
-        await pharmacyService.deletePharmacy(id)
-
-        res.status(200).json({
-            success: true,
-            message: "pharmacy delete successfully!",
-        });
+      const pharmacyId = req.params.pharmacyId;
+      if (!pharmacyId) {
+        throw new Error("pharmacy not found!");
+      }
+  
+      await pharmacyService.deletePharmacy(pharmacyId);
+  
+      res.status(200).json({
+        success: true,
+        message: "pharmacy deleted successfully!",
+      });
     } catch (error) {
-        res.status(400).json({ success: false, message: error.message });
+      res.status(400).json({ success: false, message: error.message });
     }
+  };
+
+  /** pharmacy details update by id */
+const pharmacyUpdate = async (req, res) => {
+  try {
+    const pharmacyId = req.params.pharmacyId;
+    const pharmacyExists = await pharmacyService.getPharmacyById(pharmacyId);
+    if (!pharmacyExists) {
+      throw new Error("pharmacy not found!");
+    }
+
+    await pharmacyService.pharmacyUpdate(pharmacyId, req.body);
+
+    res.status(200).json({
+      success: true,
+      message: "pharmacy details updated successfully."
+    });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
 };
 
-module.exports={createPharmacy,listPharmacy,deletePharmacy}
+module.exports = {
+    createPharmacy,
+    getPharmacyList,
+    deletePharmacy,
+    pharmacyUpdate
+}

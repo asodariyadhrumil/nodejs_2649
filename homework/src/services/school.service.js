@@ -1,20 +1,38 @@
-const { School } = require("../models");
+const { school } = require("../models");
 
 /**
- * Create hotel
  * @param {object} reqBody
- * @returns {Promise<School>}
+ *@returns {Promise<User>}
  */
+
 const createSchool = async (reqBody) => {
-    return School.create(reqBody)
-  };
+    return school.create(reqBody)
+};
 
-  const listSchool = async (reqBody) => {
-    return School.find({ $or: [ { is_active:true}]})
-  };
+const getSchoolList = async(req , res) =>{
+    // return school.find();
+    return school.find({$or : [{is_open: true}]});
+};
 
-  const deleteSchool = async (id) => {
-    return School.findByIdAndDelete(id)
-  };
+const deleteSchool = async (schoolId) => {
+    return schhol.findByIdAndDelete(schoolId);
+};
 
-   module.exports = { createSchool,listSchool,deleteSchool}
+  // Get school details by id
+ const getSchoolById = async (schoolId) =>{
+    return school.findById(schoolId);
+ };
+
+   // update school details by id
+ const schoolUpdate = async(schoolId , updateBody) =>{
+    return school.findByIdAndUpdate(schoolId , {$set : updateBody});
+ };
+
+
+module.exports = {
+    createSchool,
+    getSchoolList,
+    deleteSchool,
+    getSchoolById,
+    schoolUpdate
+};

@@ -1,20 +1,37 @@
-const { Hotel } = require("../models");
+const { hotel } = require("../models");
 
 /**
- * Create hotel
  * @param {object} reqBody
- * @returns {Promise<Hotel>}
+ *@returns {Promise<User>}
  */
-const createHotel = async (reqBody) => {
-  return Hotel.create(reqBody)
+
+const createHotel= async (reqBody) => {
+  return hotel.create(reqBody);
 };
 
-const listHotel = async (reqBody) => {
-  return Hotel.find({ $or: [ { is_active:true}]})
+const getHotelList = async (req,res) => {
+  // return hotel.find();
+  return hotel.find({$or : [{is_open : true}]});
 };
 
-const deleteHotel = async (id) => {
-  return Hotel.findByIdAndDelete(id)
+const deleteHotel= async (hotelId) => {
+  return hotel.findByIdAndDelete(hotelId);
 };
 
- module.exports = { createHotel,listHotel,deleteHotel}
+  // Get hotel details by id
+const getHotelById = async (hotelId) => {
+  return hotel.findById(hotelId);
+};
+
+  // hotel details update by id
+const hotelUpdate = async (hotelId, updateBody) => {
+  return hotel.findByIdAndUpdate(hotelId, { $set: updateBody });
+};
+
+module.exports = {
+  createHotel,
+  getHotelList,
+  deleteHotel,
+  getHotelById,
+  hotelUpdate
+};

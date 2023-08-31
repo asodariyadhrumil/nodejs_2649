@@ -1,9 +1,10 @@
-const { jewelleryService } = require("../services");
+const { jewelleryService } = require('../services');
 
-/** create jewellery*/
+/* Create jewellery */
 const createJewellery = async (req, res) => {
     try {
         const reqBody = req.body;
+        // console.log(reqBody);
 
         const jewellery = await jewelleryService.createJewellery(reqBody);
         if (!jewellery) {
@@ -12,51 +13,72 @@ const createJewellery = async (req, res) => {
 
         res.status(200).json({
             success: true,
-            message: "jewellery create successfully!",
-            data: { jewellery },
-        });
+            message: "jewellery created successfully!",
+            data:  jewellery ,
+          });
     } catch (error) {
         res.status(400).json({ success: false, message: error.message });
     }
 };
 
-
-/** list jewellery*/
-const listJewellery = async (req, res) => {
+/** Get jewellery list */
+const getJewelleryList = async (req, res) => {
     try {
-        const reqBody = req.body;
 
-        const jewellery = await jewelleryService.listJewellery(reqBody);
-        if (!jewellery) {
-            throw new Error("Something went wrong, please try again or later!");
-        }
+      const getList = await jewelleryService.getJewelleryList(req,res);
 
-        res.status(200).json({
-            success: true,
-            message: "jewellery list successfully!",
-            data: { jewellery },
-        });
+      res.status(200).json({
+        success: true,
+        message: "Get jewellery list successfully!",
+        data: getList,
+      });
     } catch (error) {
-        res.status(400).json({ success: false, message: error.message });
+      res.status(400).json({ success: false, message: error.message });
     }
-};
+  };
 
-/** delete jewellery*/
+  /** Delete jewellery */
 const deleteJewellery = async (req, res) => {
     try {
-        const id =req.params.Id
-        const jewellery = await jewelleryService.listJewellery();
-        if (!jewellery) {
-            throw new Error("Something went wrong, please try again or later!");
-        }
-        await jewelleryService.deleteJewellery(id)
-        res.status(200).json({
-            success: true,
-            message: "jewellery delete successfully!",
-        });
+      const jewelleryId = req.params.jewelleryId;
+      if (!jewelleryId) {
+        throw new Error("jewellery not found!");
+      }
+  
+      await jewelleryService.deleteJewellery(jewelleryId);
+  
+      res.status(200).json({
+        success: true,
+        message: "jewellery deleted successfully!",
+      });
     } catch (error) {
-        res.status(400).json({ success: false, message: error.message });
+      res.status(400).json({ success: false, message: error.message });
     }
+  };
+
+  /** jewellery details update by id */
+const jewelleryUpdate = async (req, res) => {
+  try {
+    const jewelleryId = req.params.jewelleryId;
+    const jewelleryExists = await jewelleryService.getJewelleryById(jewelleryId);
+    if (!jewelleryExists) {
+      throw new Error("jewellery not found!");
+    }
+
+    await jewelleryService.jewelleryUpdate(jewelleryId, req.body);
+
+    res.status(200).json({
+      success: true,
+      message: "jewellery details updated successfully."
+    });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
 };
 
-module.exports={createJewellery,listJewellery,deleteJewellery}
+module.exports = {
+    createJewellery,
+    getJewelleryList,
+    deleteJewellery,
+    jewelleryUpdate
+}

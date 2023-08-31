@@ -1,20 +1,36 @@
-const { Movie } = require("../models");
+const {movie} = require("../models");
 
 /**
- * Create hotel
  * @param {object} reqBody
- * @returns {Promise<Movie>}
+ * @returns {Promise<User>}
  */
-const createMovie = async (reqBody) => {
-    return Movie.create(reqBody)
+
+const createMovie = async (reqBody) =>{
+    return movie.create(reqBody);
+};
+
+const getMovieList = async (req , res) =>{
+    return movie.find();
+};
+
+const deleteMovie = async (movieId) =>{
+    return movie.findByIdAndDelete(movieId);
+};
+
+  // Get movie details by id
+  const getMovieById = async(movieId) =>{
+    return movie.findById(movieId);
   };
 
-  const listMovie = async (reqBody) => {
-    return Movie.find({ $or: [ { is_active:true}]})
+    // update movie details by id
+  const movieUpdate = async(movieId , updateBody) =>{
+    return movie.findByIdAndUpdate(movieId , {$set : updateBody});
   };
 
-  const deleteMovie = async (id) => {
-    return Movie.findByIdAndDelete(id)
-  };
-
-   module.exports = { createMovie,listMovie,deleteMovie}
+module.exports = {
+    createMovie,
+    getMovieList,
+    deleteMovie,
+    getMovieById,
+    movieUpdate
+}

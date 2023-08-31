@@ -1,21 +1,38 @@
-const { Pharmacy } = require("../models");
+const { pharmacy } = require("../models");
 
 /**
- * Create pharmacy
  * @param {object} reqBody
- * @returns {Promise<Pharmacy>}
+ *@returns {Promise<User>}
  */
 
-const createPharmacy = async (reqBody) => {
-    return Pharmacy.create(reqBody)
+ const createPharmacy= async (reqBody) => {
+    return pharmacy.create(reqBody);
+  };
+  
+  const getPharmacyList = async (req,res) => {
+    // return pharmacy.find();
+    return pharmacy.find({$or : [{is_available:true}]});
+  };
+  
+  const deletePharmacy= async (pharmacyId) => {
+    return pharmacy.findByIdAndDelete(pharmacyId);
   };
 
-  const listPharmacy = async (reqBody) => {
-    return Pharmacy.find({ $or: [ { is_active:true}]})
-  };
+    // Get pharmacy details by id
+const getPharmacyById = async (pharmacyId) => {
+  return pharmacy.findById(pharmacyId);
+};
 
-  const deletePharmacy = async (id) => {
-    return Pharmacy.findByIdAndDelete(id)
+  // pharmacy details update by id
+const pharmacyUpdate = async (pharmacyId, updateBody) => {
+  return pharmacy.findByIdAndUpdate(pharmacyId, { $set: updateBody });
+};
+  
+  
+  module.exports = {
+    createPharmacy,
+    getPharmacyList,
+    deletePharmacy,
+    getPharmacyById,
+    pharmacyUpdate
   };
-
-   module.exports = { createPharmacy,listPharmacy,deletePharmacy}
