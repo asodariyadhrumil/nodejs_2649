@@ -1,0 +1,19 @@
+100 - Continue
+200 - OK
+201 - Created
+202 - Accepted
+207 - multi status
+301 - Moved Permenetly
+302 - found
+400- bed request
+401 - Unauthorized
+402 - payment required
+403- forbidden
+404- page not found
+405 -method not allowed
+406- not acceptable
+422- unprocessable entity(validation arror)
+500- internal server error
+505-bed gateway
+503- service unavailable
+
