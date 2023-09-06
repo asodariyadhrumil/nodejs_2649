@@ -104,6 +104,7 @@ const updateMobile = async (req, res) => {
     }
 };
 
+
 /** update mobile status by id */
 const updateMobileStatus = async (req, res) => {
     try {
