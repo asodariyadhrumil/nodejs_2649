@@ -35,10 +35,3 @@
 // //     userController.deleteUser
 // //   );
 
-// // // router.get("/list",(req,res)=>{
-// // //   res.send(data)
-// // // })
-// // // let data = {
-// // //   "id" : 1,
-// // //   "name": "abhlo"
-// // // }

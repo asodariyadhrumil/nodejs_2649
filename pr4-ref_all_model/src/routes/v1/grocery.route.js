@@ -1,6 +1,6 @@
 const express = require("express")
-const  groceryValidation = require("../../validations/grocery.validation");
-const  groceryController = require("../../controllers/grocery.controller");
+const  {groceryValidation} = require("../../validations");
+const  {groceryController} = require("../../controllers");
 const validate = require("../../middlewares/validate");
 
 const router = express.Router();
@@ -15,7 +15,7 @@ const router = express.Router();
   router.get(
     "/list-grocery",
     validate(groceryValidation.listGrocery),
-    groceryController.listGrocery
+    groceryController.getGroceryList
   );
 // delete grocery
   router.delete(

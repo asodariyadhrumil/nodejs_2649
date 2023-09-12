@@ -1,6 +1,6 @@
 const express = require("express")
-const jewelleryValidation = require ("../../validations")
-const jewelleryController = require ("../../controllers")
+const {jewelleryValidation} = require ("../../validations")
+const {jewelleryController} = require ("../../controllers")
 const validate = require("../../middlewares/validate")
 
 const router = express.Router();
@@ -16,7 +16,7 @@ jewelleryController.createJewellery
 router.get(
 "/list-jewellery/",
 validate(jewelleryValidation.listJewellery),
-jewelleryController.listJewellery
+jewelleryController.getJewelleryList
 );
 
 //delete jewellery

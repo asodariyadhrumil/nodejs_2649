@@ -1,6 +1,6 @@
 const express = require("express")
-const pharmacyValidation = require ("../../validations")
-const pharmacyController = require ("../../controllers")
+const {pharmacyValidation} = require ("../../validations")
+const {pharmacyController} = require ("../../controllers")
 const validate = require("../../middlewares/validate")
 
 const router = express.Router();
@@ -16,7 +16,7 @@ pharmacyController.createPharmacy
 router.get(
 "/list-pharmacy/",
 validate(pharmacyValidation.listPharmacy),
-pharmacyController.listPharmacy
+pharmacyController.getPharmacyList
 );
 
 //delete pharmacy

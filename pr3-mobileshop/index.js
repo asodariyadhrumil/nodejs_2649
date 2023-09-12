@@ -6,7 +6,7 @@ const {
   connectDB
 } = require("./src/db/dbConnection");
 const config = require("./src/config/config");
-const routes = require("./src/routes/v1");
+const routes = require("./src/");
 const http = require("http");
 
 app.use(bodyParser.urlencoded({

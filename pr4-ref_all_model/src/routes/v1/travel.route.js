@@ -1,6 +1,6 @@
 const express = require("express")
-const travelValidation = require ("../../validations")
-const travelController = require ("../../controllers")
+const {travelValidation} = require ("../../validations")
+const {travelController} = require ("../../controllers")
 const validate = require("../../middlewares/validate")
 
 const router = express.Router();
@@ -16,7 +16,7 @@ travelController.createTravel
 router.get(
 "/list-travel/",
 validate(travelValidation.listTravel),
-travelController.listTravel
+travelController.getTravelList
 );
 
 //delete travel

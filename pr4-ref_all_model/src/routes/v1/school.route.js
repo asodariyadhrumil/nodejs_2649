@@ -1,6 +1,6 @@
 const express = require("express")
-const schoolValidation = require ("../../validations")
-const schoolController = require ("../../controllers")
+const {schoolValidation} = require ("../../validations")
+const {schoolController} = require ("../../controllers")
 const validate = require("../../middlewares/validate")
 
 const router = express.Router();
@@ -16,7 +16,7 @@ schoolController.createSchool
 router.get(
 "/list-school/",
 validate(schoolValidation.listSchool),
-schoolController.listSchool
+schoolController.getSchoolList
 );
 
 //delet school

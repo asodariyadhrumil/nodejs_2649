@@ -1,6 +1,6 @@
 const express = require("express")
-const movieValidation = require ("../../validations")
-const movieController = require ("../../controllers")
+const {movieValidation} = require ("../../validations")
+const {movieController} = require ("../../controllers")
 const validate = require("../../middlewares/validate")
 
 const router = express.Router();
@@ -16,7 +16,7 @@ movieController.createMovie
 router.get(
 "/list-movie/",
 validate(movieValidation.listMovie),
-movieController.listMovie
+movieController.getMovieList
 );
 
 //delete movie

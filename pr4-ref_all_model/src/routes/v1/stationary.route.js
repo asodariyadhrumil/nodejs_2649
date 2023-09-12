@@ -1,6 +1,6 @@
 const express = require("express")
-const stationaryValidation = require ("../../validations")
-const stationaryController = require ("../../controllers")
+const {stationaryValidation} = require ("../../validations")
+const {stationaryController} = require ("../../controllers")
 const validate = require("../../middlewares/validate")
 
 const router = express.Router();

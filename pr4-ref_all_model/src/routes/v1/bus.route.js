@@ -1,6 +1,6 @@
 const express = require("express")
-const  busValidation = require("../../validations");
-const  busController = require("../../controllers");
+const  {busValidation} = require("../../validations");
+const  {busController} = require("../../controllers");
 const validate = require("../../middlewares/validate");
 
 const router = express.Router();
@@ -16,7 +16,7 @@ router.post(
 router.get(
   "/list-bus",
   validate(busValidation.listBus),
-  busController.listBus
+  busController.getBusList
 );
 
 
