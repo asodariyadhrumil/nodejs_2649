@@ -1,0 +1,113 @@
+const { Product } = require("../models");
+
+/**
+ * Get product details
+ * @param {ObjectId} productId
+ * @returns {Promise<Product>}
+ */
+const getProductById = async (productId) => {
+  // This function gets the product details by the product ID.
+  // The `productId` parameter is the ID of the product to get.
+  // The function returns a Promise that resolves to the product object.
+
+  return Product.findOne({ _id: productId }).populate({
+    path: "category",
+    select: ["category_name"],
+  });
+};
+
+/**
+ * Get product list
+ * @param {object} filter
+ * @param {object} options
+ * @returns {Promise<Product>}
+ */
+const getProductList = async (filter, options) => {
+  // This function gets a list of products.
+  // The `filter` parameter is an object that specifies the filter criteria.
+  // The `options` parameter is an object that specifies the pagination options.
+  // The function returns a Promise that resolves to an array of product objects.
+
+  const skip = Number((options.page || 1) - 1) * Number(options.limit || 10);
+  return Product.find(filter).limit(Number(options.limit)).skip(Number(skip));
+};
+
+/**
+ * Create product
+ * @param {object} reqBody
+ * @returns {Promise<Product>}
+ */
+const createProduct = async (reqBody) => {
+  // This function creates a new product.
+  // The `reqBody` parameter is an object that contains the product data.
+  // The function returns a Promise that resolves to the created product object.
+
+  return Product.create(reqBody);
+};
+
+/**
+ * Update product details
+ * @param {ObjectId} productId
+ * @param {object} reqBody
+ * @returns {Promise<Product>}
+ */
+const updateProduct = async (productId, reqBody) => {
+  // This function updates the details of an existing product.
+  // The `productId` parameter is the ID of the product to update.
+  // The `reqBody` parameter is an object that contains the updated product data.
+  // The function returns a Promise that resolves to the updated product object.
+
+  return Product.findOneAndUpdate(
+    { _id: productId },
+    { $set: reqBody },
+    { new: true }
+  );
+};
+
+/**
+ * Manage product status
+ * @param {ObjectId} productId
+ * @returns {Promise<Product>}
+ */
+const manageProductStatus = async (productId) => {
+  // This function changes the status of an existing product.
+  // The `productId` parameter is the ID of the product to change the status of.
+  // The function returns a Promise that resolves to the product object with the updated status.
+
+  const productExists = await getProductById(productId);
+  if (!productExists) {
+    throw new Error("Product not found!");
+  }
+
+  return Product.findOneAndUpdate(
+    { _id: productId },
+    {
+      $set: {
+        is_active: !productExists.is_active,
+      },
+    },
+    { new: true }
+  );
+};
+
+/**
+ * Delete product
+ * @param {ObjectId} productId
+ * @returns {Promise<Product>}
+ */
+const deleteProduct = async (productId) => {
+  // This function deletes an existing product.
+  // The `productId` parameter is the ID of the product to delete.
+  // The function returns a Promise that resolves to the deleted product object.
+
+  return Product.findOneAndDelete({ _id: productId });
+};
+
+module.exports = {
+  getProductById,
+  getProductList,
+  createProduct,
+  updateProduct,
+  manageProductStatus,
+  deleteProduct,
+};
