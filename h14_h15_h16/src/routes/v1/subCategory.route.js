@@ -1,5 +1,5 @@
 const express = require("express");
-const {subCategoryService} = require("../../services");
+const {subCategoryValidation} = require("../../validations");
 const {subCategoryController} = require("../../controllers");
 const validate = require("../../middlewares/validate");
 
@@ -8,7 +8,7 @@ const router = express.Router();
 // create sub category
 router.post(
     "/create-sub-category",
-    validate(subCategoryService.createSubCategory),
+    validate(subCategoryValidation.createSubCategory),
     subCategoryController.createSubCategory
 );
 

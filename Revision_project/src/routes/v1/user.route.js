@@ -1,12 +1,11 @@
 const express = require("express");
-const {userValidation} = require("../../validations");
-const {userController} = require("../../controllers");
+const { userValidation } = require("../../validations");
+const { userController } = require("../../controllers");
 const validate = require("../../middlewares/validate");
-const { version } = require("joi");
 
 const router = express.Router();
 
-/** create user info */
+/** create user  */
 router.post(
   "/create-user",
   validate(userValidation.createUser),
@@ -29,15 +28,14 @@ router.delete(
 router.put(
   "/update-user/:userId",
   userController.updateUser
-)
-
-
+);
 
 /** Send mail */
 router.post(
   "/send-mail",
-  validate(userValidation.sendMail),
   userController.sendMail
 );
+
+
 
 module.exports = router;

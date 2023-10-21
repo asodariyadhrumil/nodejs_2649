@@ -28,7 +28,10 @@ const updateCategory = async (categoryId, updateBody) => {
 
  //Get category details by id
 const getCategoryDetails = async (categoryId) => {
-    return category.findById(categoryId);
+    return category.findById(categoryId).populate({
+        path: "product",
+        select: ["product_name"],
+      });;
   };
 
 module.exports = {

@@ -1,6 +1,6 @@
 const express = require("express");
-const { userValidation } = require("../../validations");
-const { userController } = require("../../controllers");
+const {userValidation} = require("../../validations");
+const {userController} = require("../../controllers");
 const validate = require("../../middlewares/validate");
 
 const router = express.Router();
@@ -30,5 +30,13 @@ router.put(
   userController.updateUser
 )
 
+
+
+/** Send mail */
+router.post(
+  "/send-mail",
+  validate(userValidation.sendMail),
+  userController.sendMail
+);
 
 module.exports = router;

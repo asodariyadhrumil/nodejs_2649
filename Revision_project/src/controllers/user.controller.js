@@ -1,4 +1,4 @@
-const {userService, emailService} = require("../services");
+const {userService , emailService} = require("../services");
 
 /* Create user */
 const createUser = async(req,res) =>{
@@ -58,23 +58,7 @@ const deleteUser = async(req,res) =>{
     }
 };
 
-/** Get user details by id */
-const getuserById = async (req, res) => {
-    try {
-        const getDetails = await userService.getUserById(req.params.userId);
-        if (!getDetails) {
-            throw new Error("user not found!");
-        }
 
-        res.status(200).json({
-            success: true,
-            message: "user details get successfully!",
-            data: getDetails,
-        });
-    } catch (error) {
-        res.status(400).json({ success: false, message: error.message });
-    }
-};
 
 // update user
 const updateUser = async (req, res) => {
@@ -99,20 +83,17 @@ const updateUser = async (req, res) => {
     }
 };
 
-
-
-
-/** Send mail to reqested email */
+// send mail
 const sendMail = async (req, res) => {
     try {
+      await auth(req.headers.token, ['admin']);
+
       const reqBody = req.body;
-      console.log('get req body');
       const sendEmail = await emailService.sendMail(
         reqBody.email,
         reqBody.subject,
         reqBody.text
-        );
-        console.log('Send Done..');
+      );
       if (!sendEmail) {
         throw new Error("Something went wrong, please try again or later.");
       }
@@ -124,12 +105,10 @@ const sendMail = async (req, res) => {
       res.status(400).json({ success: false, message: error.message });
     }
   };
-
 module.exports ={
     createUser,
     getUserList,
     deleteUser,
-    getuserById,
     updateUser,
     sendMail
 }

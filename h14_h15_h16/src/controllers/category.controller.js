@@ -1,6 +1,6 @@
 const { categoryService} = require("../services");
 
-//create category
+/* ----------------------------- create category ---------------------------- */
 const createCategory = async (req, res) => {
     try {
         const reqBody = req.body;
