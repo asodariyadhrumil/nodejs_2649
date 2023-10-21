@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 #node module
 
 node_modules/@types/node/LICENSE
 node_modules/@types/whatwg-url/LICENSE
 node_modules/@types/webidl-conversions/LICENSE
+=======
+node_modules/
+>>>>>>> ff9abbe20cd8773e83f6548eeca7a188a5aa389f
